@@ -12,6 +12,7 @@ window.title("Pobieracz Kursów 0.7 Alpha")
 bg_colour = 'lightblue'
 window.configure(background=bg_colour)
 window.wm_iconbitmap('icon.ico')
+logo = tk.PhotoImage(file="logo.gif")
 
 
 # RYSOWANIE MENU:
@@ -33,10 +34,10 @@ def draw_window():
 
     right_side = tk.Frame(window, background=bg_colour)
     right_side.pack(side=tk.RIGHT)
-    title = tk.Label(right_side, text="\n\n\nPROGRAM ZBIERA\nAKTUALNE\nNOTOWANIA TWOICH\nWALORÓW\n"
-                                      "I WPISUJE JE DO\nARKUSZA\n\n\n\n", fg="brown", font='Helvetica 13 bold',
-                     background=bg_colour)
+    title = tk.Label(right_side, image=logo)
     title.pack()
+    space = tk.Label(right_side, text="\n", background=bg_colour)
+    space.pack()
     button_go = tk.Button(right_side, activebackground='gold', text='AKTUALIZUJ ARKUSZ',
                           command=lambda: update_everything(), bg='green', fg="yellow",
                           font='Helvetica 11 bold', width=22)
@@ -178,9 +179,10 @@ def change_token_menu(id):
 
     right_side = tk.Frame(window, background=bg_colour)
     right_side.pack(side=tk.RIGHT)
-    title = tk.Label(right_side, text="\n\n\nPROGRAM ZBIERA\nAKTUALNE\nNOTOWANIA TWOICH\nWALORÓW\n"
-                                      "I WPISUJE JE DO\nARKUSZA\n\n\n\n", fg="brown", font='Helvetica 13 bold', background=bg_colour)
+    title = tk.Label(right_side, image=logo)
     title.pack()
+    space = tk.Label(right_side, text="\n", background=bg_colour)
+    space.pack()
     button_go = tk.Button(right_side, activebackground='gold', text='MENU GŁÓWNE', command=lambda: draw_window(),
                           bg='green',
                           fg="yellow",
@@ -190,18 +192,21 @@ def change_token_menu(id):
     left_side = tk.Frame(window, background=bg_colour)
     left_side.pack(side=tk.LEFT)
     if not str(id) in ['1', '2', '3', '4', '5', '6']:
-        name = tk.Label(left_side, text="Podaj API id tokena z Coingecko:", fg="brown", font='Helvetica 11 bold', background=bg_colour)
+        name = tk.Label(left_side, text="Podaj API id tokena z Coingecko:", fg="brown", font='Helvetica 11 bold',
+                        background=bg_colour)
         name.pack()
         ident_t = tk.Entry(left_side, width=40)
         ident_t.pack()
         ident_t.focus_set()
         ident_t.insert(0, ticker(id))
-    name1 = tk.Label(left_side, text="Podaj nazwę arkusza w zeszycie:", fg="brown", font='Helvetica 11 bold', background=bg_colour)
+    name1 = tk.Label(left_side, text="Podaj nazwę arkusza w zeszycie:", fg="brown", font='Helvetica 11 bold',
+                     background=bg_colour)
     name1.pack()
     sheet_t = tk.Entry(left_side, width=40)
     sheet_t.pack()
     sheet_t.insert(0, sheet(id))
-    name2 = tk.Label(left_side, text="Podaj komórkę w arkuszu (np. A1):", fg="brown", font='Helvetica 11 bold', background=bg_colour)
+    name2 = tk.Label(left_side, text="Podaj komórkę w arkuszu (np. A1):", fg="brown", font='Helvetica 11 bold',
+                     background=bg_colour)
     name2.pack()
     cell_t = tk.Entry(left_side, width=40)
     cell_t.pack()
@@ -412,10 +417,9 @@ def load_track():
     try:
         temp = open('data.txt', 'r')
         trak = temp.readline()
-
         temp.close()
     except:
-        change_xlsx_local()
+        check_file_xlsx
 
 
 def check_file_xlsx():
@@ -438,10 +442,11 @@ def check_file_xlsx():
 
         right_side = tk.Frame(window, background=bg_colour)
         right_side.pack(side=tk.RIGHT)
-        title = tk.Label(right_side, text="\n\n\nPROGRAM ZBIERA\nAKTUALNE\nNOTOWANIA TWOICH\nWALORÓW\n"
-                                          "I WPISUJE JE DO\nARKUSZA\n\n\n\n", fg="brown", font='Helvetica 13 bold', background=bg_colour)
+        title = tk.Label(right_side, image=logo)
         title.pack()
-        left_side = tk.Frame(window)
+        space = tk.Label(right_side, text="\n", background=bg_colour)
+        space.pack()
+        left_side = tk.Frame(window, background=bg_colour)
         left_side.pack(side=tk.LEFT)
         name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx", fg="brown",
                         font='Helvetica 11 bold', background=bg_colour)
@@ -450,14 +455,13 @@ def check_file_xlsx():
         track.pack()
         track.focus_set()
         track.insert(0, "")
-        space = tk.Label(left_side, text="\n")
+        space = tk.Label(left_side, text="\n", background=bg_colour)
         space.pack()
         button_get = tk.Button(left_side, activebackground='gold', text='DODAJ ŚCIEŻKĘ', command=lambda: add_track(),
                                bg='green',
                                fg="yellow",
                                font='Helvetica 11 bold', width=20)
         button_get.pack()
-        load_track()
 
 
 def change_xlsx_local():
@@ -478,9 +482,15 @@ def change_xlsx_local():
 
     right_side = tk.Frame(window, background=bg_colour)
     right_side.pack(side=tk.RIGHT)
-    title = tk.Label(right_side, text="\n\n\nPROGRAM ZBIERA\nAKTUALNE\nNOTOWANIA TWOICH\nWALORÓW\n"
-                                      "I WPISUJE JE DO\nARKUSZA\n\n\n\n", fg="brown", font='Helvetica 13 bold', background=bg_colour)
+    title = tk.Label(right_side, image=logo)
     title.pack()
+    space = tk.Label(right_side, text="\n", background=bg_colour)
+    space.pack()
+    button_go = tk.Button(right_side, activebackground='gold', text='MENU GŁÓWNE', command=lambda: draw_window(),
+                          bg='green',
+                          fg="yellow",
+                          font='Helvetica 11 bold', width=22)
+    button_go.pack()
     left_side = tk.Frame(window, background=bg_colour)
     left_side.pack(side=tk.LEFT)
     name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx", fg="brown",
@@ -516,7 +526,10 @@ def add_track():
         wb = load_workbook(tracker)
         draw_window()
     except:
-        check_file_xlsx()
+        try:
+            load_track()
+        except:
+            check_file_xlsx()
 
 
 # WYWOŁANIE PROGRAMU:
