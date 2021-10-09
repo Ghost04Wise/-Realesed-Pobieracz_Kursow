@@ -162,7 +162,7 @@ def draw_window():
 
 def change_token_menu(id):
     global ident_t
-    global sheet_t
+    global option_var
     global cell_t
     clear_frame()
     menu = tk.Menu(window)
@@ -199,12 +199,17 @@ def change_token_menu(id):
         ident_t.pack()
         ident_t.focus_set()
         ident_t.insert(0, ticker(id))
-    name1 = tk.Label(left_side, text="Podaj nazwę arkusza w zeszycie:", fg="brown", font='Helvetica 11 bold',
+    name1 = tk.Label(left_side, text="Wybierz arkusz w zeszycie:", fg="brown", font='Helvetica 11 bold',
                      background=bg_colour)
     name1.pack()
-    sheet_t = tk.Entry(left_side, width=40)
+
+    sheet_base = wb.sheetnames
+    sheet_base.remove('data')
+    option_var = tk.StringVar(left_side)
+    option_var.set(sheet_base[0])
+    sheet_t = tk.OptionMenu(left_side, option_var, *sheet_base)
     sheet_t.pack()
-    sheet_t.insert(0, sheet(id))
+
     name2 = tk.Label(left_side, text="Podaj komórkę w arkuszu (np. A1):", fg="brown", font='Helvetica 11 bold',
                      background=bg_colour)
     name2.pack()
@@ -251,7 +256,7 @@ def cell(id):
 def get_token(id):
     if not str(id) in ['1', '2', '3', '4', '5', '6']:
         ticker = ident_t.get()
-    sheet = sheet_t.get()
+    sheet = option_var.get()
     cell = cell_t.get()
 
     data = wb['data']
