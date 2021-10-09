@@ -4,11 +4,12 @@ from requests import get
 import tkinter as tk
 from openpyxl import load_workbook
 from pycoingecko import CoinGeckoAPI
+from tkinter.filedialog import askopenfilename
 
 cg = CoinGeckoAPI()
 
 window = tk.Tk()
-window.title("Pobieracz Kursów 0.7 Alpha")
+window.title("Pobieracz Kursów 0.8 Beta")
 bg_colour = 'lightblue'
 window.configure(background=bg_colour)
 window.wm_iconbitmap('icon.ico')
@@ -161,8 +162,9 @@ def draw_window():
 
 
 def change_token_menu(id):
+    load_track()
     global ident_t
-    global option_var
+    global sheet_t
     global cell_t
     clear_frame()
     menu = tk.Menu(window)
@@ -205,10 +207,13 @@ def change_token_menu(id):
 
     sheet_base = wb.sheetnames
     sheet_base.remove('data')
-    option_var = tk.StringVar(left_side)
-    option_var.set(sheet_base[0])
-    sheet_t = tk.OptionMenu(left_side, option_var, *sheet_base)
-    sheet_t.pack()
+    sheet_t = tk.StringVar(left_side)
+    if sheet(id) == 'None':
+        sheet_t.set(sheet_base[0])
+    else:
+        sheet_t.set(sheet(id))
+    sheet1 = tk.OptionMenu(left_side, sheet_t, *sheet_base)
+    sheet1.pack()
 
     name2 = tk.Label(left_side, text="Podaj komórkę w arkuszu (np. A1):", fg="brown", font='Helvetica 11 bold',
                      background=bg_colour)
@@ -241,12 +246,16 @@ def ticker(id):
 def sheet(id):
     data = wb['data']
     ticker = data.cell(row=2, column=id)
+    if str(ticker.value) == 'None':
+        return ''
     return str(ticker.value)
 
 
 def cell(id):
     data = wb['data']
     ticker = data.cell(row=3, column=id)
+    if str(ticker.value) == 'None':
+        return ''
     return str(ticker.value)
 
 
@@ -256,7 +265,7 @@ def cell(id):
 def get_token(id):
     if not str(id) in ['1', '2', '3', '4', '5', '6']:
         ticker = ident_t.get()
-    sheet = option_var.get()
+    sheet = sheet_t.get()
     cell = cell_t.get()
 
     data = wb['data']
@@ -501,6 +510,7 @@ def change_xlsx_local():
     name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx", fg="brown",
                     font='Helvetica 11 bold', background=bg_colour)
     name.pack()
+    filename = askopenfilename()
     track = tk.Entry(left_side, width=30)
     track.pack()
     track.focus_set()
