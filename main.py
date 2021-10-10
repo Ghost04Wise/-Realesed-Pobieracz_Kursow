@@ -1,5 +1,6 @@
 import time
 import sys
+import re
 from bs4 import BeautifulSoup
 from requests import get
 import tkinter as tk
@@ -209,7 +210,7 @@ def change_token_menu(id):
     sheet_base = wb.sheetnames
     sheet_base.remove('data')
     sheet_t = tk.StringVar(left_side)
-    if sheet(id) == 'None':
+    if sheet(id) == 'None' or sheet(id) == '':
         sheet_t.set(sheet_base[0])
     else:
         sheet_t.set(sheet(id))
@@ -268,15 +269,17 @@ def get_token(id):
         ticker = ident_t.get()
     sheet = sheet_t.get()
     cell = cell_t.get()
-
-    data = wb['data']
-    if not str(id) in ['1', '2', '3', '4', '5', '6']:
-        data.cell(row=1, column=id).value = ticker
-    data.cell(row=2, column=id).value = sheet
-    data.cell(row=3, column=id).value = cell
-
-    wb.save(trak)
-    draw_window()
+    if re.match(r"[a-zA-Z][1-9]$", str(cell)) or re.match(r"[a-zA-Z][1-9][0-9]$", str(cell))\
+            or re.match(r"[a-zA-Z][1-9][0-9][0-9]$", str(cell)):
+        data = wb['data']
+        if not str(id) in ['1', '2', '3', '4', '5', '6']:
+            data.cell(row=1, column=id).value = ticker
+        data.cell(row=2, column=id).value = sheet
+        data.cell(row=3, column=id).value = cell
+        wb.save(trak)
+        draw_window()
+    else:
+        None
 
 
 # ZBIERANIE NOTOWAŃ:
@@ -463,10 +466,10 @@ def check_file_xlsx():
         space.pack()
         left_side = tk.Frame(window, background=bg_colour)
         left_side.pack(side=tk.LEFT)
-        name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx:", fg="brown",
+        name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie XLSX:", fg="brown",
                         font='Helvetica 11 bold', background=bg_colour)
         name.pack()
-        track1 = askopenfilename(title="Wybierz zeszyt")
+        track1 = askopenfilename(title="Wybierz zeszyt w formacie XLSX")
         track = tk.Entry(left_side, width=50)
         track.pack()
         track.focus_set()
@@ -512,11 +515,11 @@ def change_xlsx_local():
     button_go.pack()
     left_side = tk.Frame(window, background=bg_colour)
     left_side.pack(side=tk.LEFT)
-    name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx:", fg="brown",
+    name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie XLSX:", fg="brown",
                     font='Helvetica 11 bold', background=bg_colour)
     name.pack()
     time.sleep(0.5)
-    track1 = askopenfilename(title="Wybierz zeszyt")
+    track1 = askopenfilename(title="Wybierz zeszyt w formacie XLSX")
     track = tk.Entry(left_side, width=50)
     track.pack()
     track.focus_set()
