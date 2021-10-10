@@ -1,3 +1,4 @@
+import time
 import sys
 from bs4 import BeautifulSoup
 from requests import get
@@ -462,13 +463,17 @@ def check_file_xlsx():
         space.pack()
         left_side = tk.Frame(window, background=bg_colour)
         left_side.pack(side=tk.LEFT)
-        name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx", fg="brown",
+        name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx:", fg="brown",
                         font='Helvetica 11 bold', background=bg_colour)
         name.pack()
-        track = tk.Entry(left_side, width=30)
+        track1 = askopenfilename(title="Wybierz zeszyt")
+        track = tk.Entry(left_side, width=50)
         track.pack()
         track.focus_set()
-        track.insert(0, "")
+        track.insert(0, track1)
+        but = tk.Button(left_side, activebackground='gold', text='...', command=lambda: check_file_xlsx(),
+                               bg='green', fg="yellow", font='Helvetica 11 bold', width=4)
+        but.pack()
         space = tk.Label(left_side, text="\n", background=bg_colour)
         space.pack()
         button_get = tk.Button(left_side, activebackground='gold', text='DODAJ ŚCIEŻKĘ', command=lambda: add_track(),
@@ -507,14 +512,15 @@ def change_xlsx_local():
     button_go.pack()
     left_side = tk.Frame(window, background=bg_colour)
     left_side.pack(side=tk.LEFT)
-    name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx", fg="brown",
+    name = tk.Label(left_side, text="    Podaj pełną ścieżkę do arkusza w formacie xlsx:", fg="brown",
                     font='Helvetica 11 bold', background=bg_colour)
     name.pack()
-    filename = askopenfilename()
-    track = tk.Entry(left_side, width=30)
+    time.sleep(0.5)
+    track1 = askopenfilename(title="Wybierz zeszyt")
+    track = tk.Entry(left_side, width=50)
     track.pack()
     track.focus_set()
-    track.insert(0, "")
+    track.insert(0, track1)
     space = tk.Label(left_side, text="\n", background=bg_colour)
     space.pack()
     button_get = tk.Button(left_side, activebackground='gold', text='DODAJ ŚCIEŻKĘ', command=lambda: add_track(),
