@@ -5,10 +5,8 @@ from bs4 import BeautifulSoup
 from requests import get
 import tkinter as tk
 from openpyxl import load_workbook
-from pycoingecko import CoinGeckoAPI
 from tkinter.filedialog import askopenfilename
-
-cg = CoinGeckoAPI()
+import requests
 
 window = tk.Tk()
 window.title("Pobieracz Kursów 0.8 Beta")
@@ -16,7 +14,6 @@ bg_colour = 'lightblue'
 window.configure(background=bg_colour)
 window.wm_iconbitmap('icon.ico')
 logo = tk.PhotoImage(file="logo.gif")
-
 
 # RYSOWANIE MENU:
 
@@ -291,8 +288,11 @@ def get_token_price_from_coingecko(id):
         ticker = data.cell(row=1, column=id)
         ticker = str(ticker.value)
 
-        price = cg.get_price(ids=ticker, vs_currencies='usd')
-        price_exact = price[ticker]['usd']
+        response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids='+ticker+'&vs_currencies=usd')
+        price = response.json()
+        price = price[str(ticker)]['usd']
+        price = str(price)
+        price_exact = price.replace(".", ",")
 
         data = wb['data']
         sheet = data.cell(row=2, column=id)
