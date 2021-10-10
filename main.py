@@ -262,20 +262,38 @@ def cell(id):
 
 
 def get_token(id):
-    if not str(id) in ['1', '2', '3', '4', '5', '6']:
-        ticker = ident_t.get()
-    sheet = sheet_t.get()
-    cell = cell_t.get()
-    if re.match(r"[a-zA-Z][1-9]$", str(cell)) or re.match(r"[a-zA-Z][1-9][0-9]$", str(cell))\
-            or re.match(r"[a-zA-Z][1-9][0-9][0-9]$", str(cell)):
+    def ticker(id):
         data = wb['data']
-        if not str(id) in ['1', '2', '3', '4', '5', '6']:
-            data.cell(row=1, column=id).value = ticker
-        data.cell(row=2, column=id).value = sheet
-        data.cell(row=3, column=id).value = cell
-        wb.save(trak)
-        draw_window()
-    else:
+        ticker = data.cell(row=1, column=id)
+        if str(ticker.value) == 'None':
+            return 'TWÓJ TOKEN'
+        return str(ticker.value)
+    temp = ticker(id)
+    if not str(id) in ['1', '2', '3', '4', '5', '6']:
+            ticker = ident_t.get()
+            response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=' + ticker + '&v'
+                                                                                                    's_currencies=usd')
+            price = response.json()
+            check = len(price)
+            if check == 1:
+                None
+            else:
+                ticker = temp
+    try:
+        sheet = sheet_t.get()
+        cell = cell_t.get()
+        if re.match(r"[a-zA-Z][1-9]$", str(cell)) or re.match(r"[a-zA-Z][1-9][0-9]$", str(cell))\
+                or re.match(r"[a-zA-Z][1-9][0-9][0-9]$", str(cell)):
+            data = wb['data']
+            if not str(id) in ['1', '2', '3', '4', '5', '6']:
+                data.cell(row=1, column=id).value = ticker
+                data.cell(row=2, column=id).value = sheet
+                data.cell(row=3, column=id).value = cell
+            wb.save(trak)
+            draw_window()
+        else:
+            None
+    except:
         None
 
 
