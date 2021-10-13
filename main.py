@@ -24,7 +24,7 @@ def draw_window():
     window.config(menu=menu)
     menu.add_command(label="    ZMIEŃ LOKALIZACJĘ ARKUSZA   ", command=lambda: change_xlsx_local())
     window_height = 310
-    window_width = 620
+    window_width = 840
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
     x_cordinate = int((screen_width / 2) - (window_width / 2))
@@ -159,6 +159,64 @@ def draw_window():
                           font='Helvetica 10 bold', width=25)
     button_13.pack()
 
+    left3_side = tk.Frame(window)
+    left3_side.pack(side=tk.LEFT)
+
+    button_14 = tk.Button(left3_side, activebackground='gold', text=ticker(23), command=lambda: change_token_menu(23),
+                         bg='silver', fg="brown",
+                         font='Helvetica 10 bold', width=25)
+    button_14.pack()
+
+    button_15 = tk.Button(left3_side, activebackground='gold', text=ticker(24), command=lambda: change_token_menu(24),
+                         bg='silver', fg="brown",
+                         font='Helvetica 10 bold', width=25)
+    button_15.pack()
+
+    button_16 = tk.Button(left3_side, activebackground='gold', text=ticker(25), command=lambda: change_token_menu(25),
+                         bg='silver', fg="brown",
+                         font='Helvetica 10 bold', width=25)
+    button_16.pack()
+
+    button_17 = tk.Button(left3_side, activebackground='gold', text=ticker(26), command=lambda: change_token_menu(26),
+                         bg='silver', fg="brown",
+                         font='Helvetica 10 bold', width=25)
+    button_17.pack()
+
+    button_18 = tk.Button(left3_side, activebackground='gold', text=ticker(27), command=lambda: change_token_menu(27),
+                         bg='silver', fg="brown",
+                         font='Helvetica 10 bold', width=25)
+    button_18.pack()
+
+    button_19 = tk.Button(left3_side, activebackground='gold', text=ticker(28), command=lambda: change_token_menu(28),
+                         bg='silver', fg="brown",
+                         font='Helvetica 10 bold', width=25)
+    button_19.pack()
+
+    button_20 = tk.Button(left3_side, activebackground='gold', text=ticker(29), command=lambda: change_token_menu(29),
+                         bg='silver', fg="brown",
+                         font='Helvetica 10 bold', width=25)
+    button_20.pack()
+
+    button_21 = tk.Button(left3_side, activebackground='gold', text=ticker(30), command=lambda: change_token_menu(30),
+                          bg='silver', fg="brown",
+                          font='Helvetica 10 bold', width=25)
+    button_21.pack()
+
+    button_22 = tk.Button(left3_side, activebackground='gold', text=ticker(31), command=lambda: change_token_menu(31),
+                          bg='silver', fg="brown",
+                          font='Helvetica 10 bold', width=25)
+    button_22.pack()
+
+    button_23 = tk.Button(left3_side, activebackground='gold', text=ticker(32), command=lambda: change_token_menu(32),
+                          bg='silver', fg="brown",
+                          font='Helvetica 10 bold', width=25)
+    button_23.pack()
+
+    button_24 = tk.Button(left3_side, activebackground='gold', text=ticker(33), command=lambda: change_token_menu(33),
+                          bg='silver', fg="brown",
+                          font='Helvetica 10 bold', width=25)
+    button_24.pack()
+
 
 def change_token_menu(id):
     load_track()
@@ -170,7 +228,7 @@ def change_token_menu(id):
     window.config(menu=menu)
     menu.add_command(label="    ZMIEŃ LOKALIZACJĘ ARKUSZA   ", command=lambda: change_xlsx_local())
     window_height = 310
-    window_width = 620
+    window_width = 840
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
     x_cordinate = int((screen_width / 2) - (window_width / 2))
@@ -442,6 +500,17 @@ def update_everything():
     get_token_price_from_coingecko(20)
     get_token_price_from_coingecko(21)
     get_token_price_from_coingecko(22)
+    get_token_price_from_coingecko(23)
+    get_token_price_from_coingecko(24)
+    get_token_price_from_coingecko(25)
+    get_token_price_from_coingecko(26)
+    get_token_price_from_coingecko(27)
+    get_token_price_from_coingecko(28)
+    get_token_price_from_coingecko(29)
+    get_token_price_from_coingecko(30)
+    get_token_price_from_coingecko(31)
+    get_token_price_from_coingecko(32)
+    get_token_price_from_coingecko(33)
     sys.exit()
 
 
@@ -468,7 +537,7 @@ def check_file_xlsx():
         global ident
         clear_frame()
         window_height = 310
-        window_width = 620
+        window_width = 840
         screen_width = window.winfo_screenwidth()
         screen_height = window.winfo_screenheight()
         x_cordinate = int((screen_width / 2) - (window_width / 2))
@@ -512,7 +581,7 @@ def change_xlsx_local():
     window.config(menu=menu)
     menu.add_command(label="    ZMIEŃ LOKALIZACJĘ ARKUSZA   ", command=lambda: change_xlsx_local())
     window_height = 310
-    window_width = 620
+    window_width = 840
     screen_width = window.winfo_screenwidth()
     screen_height = window.winfo_screenheight()
     x_cordinate = int((screen_width / 2) - (window_width / 2))
