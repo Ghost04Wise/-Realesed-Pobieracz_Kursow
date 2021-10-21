@@ -362,13 +362,9 @@ def get_token(id):
 
 def delete_token(id):
     data = wb['data']
-    non = ""
-    cell = data.cell(row=1, column=id)
-    data[str(cell.value)] = non
-    cell = data.cell(row=2, column=id)
-    data[str(cell.value)] = ''
-    cell = data.cell(row=3, column=id)
-    data[str(cell.value)] = ''
+    data.cell(row=1, column=id, value='TWÓJ TOKEN')
+    data.cell(row=2, column=id, value='')
+    data.cell(row=3, column=id, value='')
     wb.save(trak)
     draw_window()
 
