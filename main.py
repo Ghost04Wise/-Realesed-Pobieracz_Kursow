@@ -285,6 +285,11 @@ def change_token_menu(id):
                            fg="yellow",
                            font='Helvetica 11 bold', width=20)
     button_get.pack()
+    button_del = tk.Button(left_side, activebackground='gold', text='USUŃ', command=lambda: delete_token(id),
+                           bg='green',
+                           fg="yellow",
+                           font='Helvetica 11 bold', width=20)
+    button_del.pack()
 
 
 def clear_frame():
@@ -355,6 +360,19 @@ def get_token(id):
         None
 
 
+def delete_token(id):
+    data = wb['data']
+    non = ""
+    cell = data.cell(row=1, column=id)
+    data[str(cell.value)] = non
+    cell = data.cell(row=2, column=id)
+    data[str(cell.value)] = ''
+    cell = data.cell(row=3, column=id)
+    data[str(cell.value)] = ''
+    wb.save(trak)
+    draw_window()
+
+
 # ZBIERANIE NOTOWAŃ:
 
 
@@ -376,6 +394,7 @@ def get_token_price_from_coingecko(id):
         sheet_exact = wb[str(sheet.value)]
         sheet_exact[str(cell.value)] = price_exact
         wb.save(trak)
+        print(id)
     except:
         None
 
@@ -404,6 +423,7 @@ def get_fiat_price(link, id):
         sheet_exact = wb[str(sheet.value)]
         sheet_exact[str(cell.value)] = price
         wb.save(trak)
+        print(id)
     except:
         None
 
@@ -426,22 +446,22 @@ def get_gold_price(link, id):
         sheet_exact = wb[str(sheet.value)]
         sheet_exact[str(cell.value)] = price
         wb.save(trak)
+        print(id)
     except:
         None
 
 
 def get_swda_price(link, id):
     try:
-        global notowania
-        url = link
-        page = get(url)
+        page = get(link)
         bs = BeautifulSoup(page.content, 'html.parser')
 
-        for nastronie in bs.find_all('span', id="aq_swda.uk_c2"):
-            nastronie = str(nastronie)
-            price = nastronie.replace('<span id="aq_swda.uk_c2">', "")
-            price = price.replace('</span>', "")
-            price = price.replace('.', ",")
+        for onpage in bs.find('span', class_='bid price-divide'):
+            page = str(onpage)
+            page = page.replace('p', '')
+            page = page.replace(',', '')
+            price = page[0:4]
+            print(price)
 
         data = wb['data']
         sheet = data.cell(row=2, column=id)
@@ -455,16 +475,15 @@ def get_swda_price(link, id):
 
 def get_emim_price(link, id):
     try:
-        global notowania
-        url = link
-        page = get(url)
+        page = get(link)
         bs = BeautifulSoup(page.content, 'html.parser')
 
-        for nastronie in bs.find_all('span', id="aq_emim.uk_c1"):
-            nastronie = str(nastronie)
-            price = nastronie.replace('<span id="aq_emim.uk_c1">', "")
-            price = price.replace('</span>', "")
-            price = price.replace('.', ",")
+        for onpage in bs.find('span', class_='bid price-divide'):
+            page = str(onpage)
+            page = page.replace('p', '')
+            page = page.replace(',', '')
+            price = page[0:4]
+            print(price)
 
         data = wb['data']
         sheet = data.cell(row=2, column=id)
@@ -482,8 +501,8 @@ def update_everything():
     get_fiat_price('https://e-kursy-walut.pl/kurs-euro/', 2)
     get_fiat_price('https://e-kursy-walut.pl/kurs-funta/', 3)
     get_gold_price('https://www.kitco.com/charts/livegold.html', 4)
-    get_swda_price('https://stooq.pl/q/?s=swda.uk', 5)
-    get_emim_price('https://stooq.pl/q/?s=emim.uk', 6)
+    get_swda_price('https://www.hl.co.uk/shares/shares-search-results/i/ishares-iii-plc-core-msci-world-acc', 5)
+    get_emim_price('https://www.hl.co.uk/shares/shares-search-results/i/ishares-plc-msci-emerging-markets-imi', 6)
     get_token_price_from_coingecko(7)
     get_token_price_from_coingecko(8)
     get_token_price_from_coingecko(9)
