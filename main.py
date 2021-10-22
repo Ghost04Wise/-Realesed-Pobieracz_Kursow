@@ -250,15 +250,39 @@ def change_token_menu(id):
     button_go.pack()
 
     left_side = tk.Frame(window, background=bg_colour)
-    left_side.pack(side=tk.LEFT)
+    left_side.pack(side=tk.TOP)
     if not str(id) in ['1', '2', '3', '4', '5', '6']:
+        space2 = tk.Label(left_side, text="\n", background=bg_colour)
+        space2.pack()
         name = tk.Label(left_side, text="Podaj API id tokena z Coingecko:", fg="brown", font='Helvetica 11 bold',
                         background=bg_colour)
         name.pack()
-        ident_t = tk.Entry(left_side, width=40)
+        ident_t = tk.Entry(left_side, width=50)
         ident_t.pack()
         ident_t.focus_set()
         ident_t.insert(0, ticker(id))
+    if str(id) in ['1', '2', '3', '4', '5', '6']:
+        if id == 1:
+            space2 = tk.Label(left_side, text="\nUSD \ PLN", fg="red", font='Helvetica 11 bold', background=bg_colour)
+            space2.pack()
+        if id == 2:
+            space2 = tk.Label(left_side, text="\nEUR \ PLN", fg="red", font='Helvetica 11 bold', background=bg_colour)
+            space2.pack()
+        if id == 3:
+            space2 = tk.Label(left_side, text="\nGBP \ PLN", fg="red", font='Helvetica 11 bold', background=bg_colour)
+            space2.pack()
+        if id == 4:
+            space2 = tk.Label(left_side, text="\nGOLD \ USD", fg="red", font='Helvetica 11 bold', background=bg_colour)
+            space2.pack()
+        if id == 5:
+            space2 = tk.Label(left_side, text="\nSWDA ETF \ GBP", fg="red", font='Helvetica 11 bold',
+                              background=bg_colour)
+            space2.pack()
+        if id == 6:
+            space2 = tk.Label(left_side, text="\nEMIM ETF \ GBP", fg="red", font='Helvetica 11 bold',
+                              background=bg_colour)
+            space2.pack()
+
     name1 = tk.Label(left_side, text="Wybierz arkusz w zeszycie:", fg="brown", font='Helvetica 11 bold',
                      background=bg_colour)
     name1.pack()
@@ -276,7 +300,7 @@ def change_token_menu(id):
     name2 = tk.Label(left_side, text="Podaj komórkę w arkuszu (np. A1):", fg="brown", font='Helvetica 11 bold',
                      background=bg_colour)
     name2.pack()
-    cell_t = tk.Entry(left_side, width=40)
+    cell_t = tk.Entry(left_side, width=10)
     cell_t.pack()
     cell_t.insert(0, cell(id))
     space = tk.Label(left_side, text="\n", background=bg_colour)
@@ -284,12 +308,12 @@ def change_token_menu(id):
     button_get = tk.Button(left_side, activebackground='gold', text='ZMIEŃ / DODAJ', command=lambda: get_token(id),
                            bg='green',
                            fg="yellow",
-                           font='Helvetica 11 bold', width=20)
+                           font='Helvetica 11 bold', width=15)
     button_get.pack()
     button_del = tk.Button(left_side, activebackground='gold', text='USUŃ', command=lambda: delete_token(id),
                            bg='green',
                            fg="yellow",
-                           font='Helvetica 11 bold', width=20)
+                           font='Helvetica 11 bold', width=15)
     button_del.pack()
 
 
