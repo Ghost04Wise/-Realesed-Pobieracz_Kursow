@@ -15,6 +15,7 @@ window.configure(background=bg_colour)
 window.wm_iconbitmap('icon.ico')
 logo = tk.PhotoImage(file="logo.gif")
 
+
 # RYSOWANIE MENU:
 
 
@@ -350,6 +351,9 @@ def get_token(id):
             data = wb['data']
             if not str(id) in ['1', '2', '3', '4', '5', '6']:
                 data.cell(row=1, column=id).value = ticker
+                data.cell(row=2, column=id).value = sheet
+                data.cell(row=3, column=id).value = cell
+            else:
                 data.cell(row=2, column=id).value = sheet
                 data.cell(row=3, column=id).value = cell
             wb.save(trak)
