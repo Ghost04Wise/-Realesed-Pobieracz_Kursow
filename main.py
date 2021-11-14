@@ -67,6 +67,11 @@ def draw_window():
                             font='Helvetica 10 bold', width=25)
     button_gold.pack()
 
+    button_silver = tk.Button(left_side, activebackground='gold', text='SILVER / USD', command=lambda: change_token_menu(33),
+                            bg='silver', fg="brown",
+                            font='Helvetica 10 bold', width=25)
+    button_silver.pack()
+
     button_swda = tk.Button(left_side, activebackground='gold', text='SWDA ETF / GBP',
                             command=lambda: change_token_menu(5), bg='silver', fg="brown",
                             font='Helvetica 10 bold', width=25)
@@ -97,13 +102,13 @@ def draw_window():
                          font='Helvetica 10 bold', width=25)
     button_1.pack()
 
-    button_2 = tk.Button(left_side, activebackground='gold', text=ticker(11), command=lambda: change_token_menu(11),
+    left2_side = tk.Frame(window)
+    left2_side.pack(side=tk.LEFT)
+
+    button_2 = tk.Button(left2_side, activebackground='gold', text=ticker(11), command=lambda: change_token_menu(11),
                          bg='silver', fg="brown",
                          font='Helvetica 10 bold', width=25)
     button_2.pack()
-
-    left2_side = tk.Frame(window)
-    left2_side.pack(side=tk.LEFT)
 
     button_3 = tk.Button(left2_side, activebackground='gold', text=ticker(12), command=lambda: change_token_menu(12),
                          bg='silver', fg="brown",
@@ -155,13 +160,13 @@ def draw_window():
                           font='Helvetica 10 bold', width=25)
     button_12.pack()
 
-    button_13 = tk.Button(left2_side, activebackground='gold', text=ticker(22), command=lambda: change_token_menu(22),
+    left3_side = tk.Frame(window)
+    left3_side.pack(side=tk.LEFT)
+
+    button_13 = tk.Button(left3_side, activebackground='gold', text=ticker(22), command=lambda: change_token_menu(22),
                           bg='silver', fg="brown",
                           font='Helvetica 10 bold', width=25)
     button_13.pack()
-
-    left3_side = tk.Frame(window)
-    left3_side.pack(side=tk.LEFT)
 
     button_14 = tk.Button(left3_side, activebackground='gold', text=ticker(23), command=lambda: change_token_menu(23),
                          bg='silver', fg="brown",
@@ -213,11 +218,6 @@ def draw_window():
                           font='Helvetica 10 bold', width=25)
     button_23.pack()
 
-    button_24 = tk.Button(left3_side, activebackground='gold', text=ticker(33), command=lambda: change_token_menu(33),
-                          bg='silver', fg="brown",
-                          font='Helvetica 10 bold', width=25)
-    button_24.pack()
-
 
 def change_token_menu(id):
     load_track()
@@ -251,7 +251,7 @@ def change_token_menu(id):
 
     left_side = tk.Frame(window, background=bg_colour)
     left_side.pack(side=tk.TOP)
-    if not str(id) in ['1', '2', '3', '4', '5', '6']:
+    if not str(id) in ['1', '2', '3', '4', '5', '6', '33']:
         space2 = tk.Label(left_side, text="\n", background=bg_colour)
         space2.pack()
         name = tk.Label(left_side, text="Podaj API id tokena z Coingecko:", fg="brown", font='Helvetica 11 bold',
@@ -261,7 +261,7 @@ def change_token_menu(id):
         ident_t.pack()
         ident_t.focus_set()
         ident_t.insert(0, ticker(id))
-    if str(id) in ['1', '2', '3', '4', '5', '6']:
+    if str(id) in ['1', '2', '3', '4', '5', '6', '33']:
         if id == 1:
             space2 = tk.Label(left_side, text="\nUSD \ PLN", fg="red", font='Helvetica 11 bold', background=bg_colour)
             space2.pack()
@@ -280,6 +280,10 @@ def change_token_menu(id):
             space2.pack()
         if id == 6:
             space2 = tk.Label(left_side, text="\nEMIM ETF \ GBP", fg="red", font='Helvetica 11 bold',
+                              background=bg_colour)
+            space2.pack()
+        if id == 33:
+            space2 = tk.Label(left_side, text="\nSILVER \ USD", fg="red", font='Helvetica 11 bold',
                               background=bg_colour)
             space2.pack()
 
@@ -357,7 +361,7 @@ def get_token(id):
             return 'TWÓJ TOKEN'
         return str(ticker.value)
     temp = ticker(id)
-    if not str(id) in ['1', '2', '3', '4', '5', '6']:
+    if not str(id) in ['1', '2', '3', '4', '5', '6', '33']:
             ticker = ident_t.get()
             response = requests.get('https://api.coingecko.com/api/v3/simple/price?ids=' + ticker + '&v'
                                                                                                     's_currencies=usd')
@@ -373,7 +377,7 @@ def get_token(id):
         if re.match(r"[a-zA-Z][1-9]$", str(cell)) or re.match(r"[a-zA-Z][1-9][0-9]$", str(cell))\
                 or re.match(r"[a-zA-Z][1-9][0-9][0-9]$", str(cell)):
             data = wb['data']
-            if not str(id) in ['1', '2', '3', '4', '5', '6']:
+            if not str(id) in ['1', '2', '3', '4', '5', '6', '33']:
                 data.cell(row=1, column=id).value = ticker
                 data.cell(row=2, column=id).value = sheet
                 data.cell(row=3, column=id).value = cell
@@ -475,6 +479,29 @@ def get_gold_price(link, id):
         None
 
 
+def get_silver_price(link, id):
+    try:
+        global notowania
+        url = link
+        page = get(url)
+        bs = BeautifulSoup(page.content, 'html.parser')
+
+        for nastronie in bs.find_all('div', class_='data-blk bid'):
+            price = nastronie.find('span').get_text()
+            price = price.replace(",", "")
+            price = price.replace(".", ",")
+
+        data = wb['data']
+        sheet = data.cell(row=2, column=id)
+        cell = data.cell(row=3, column=id)
+        sheet_exact = wb[str(sheet.value)]
+        sheet_exact[str(cell.value)] = price
+        wb.save(trak)
+        print(id)
+    except:
+        None
+
+
 def get_swda_price(link, id):
     try:
         page = get(link)
@@ -525,6 +552,7 @@ def update_everything():
     get_fiat_price('https://e-kursy-walut.pl/kurs-euro/', 2)
     get_fiat_price('https://e-kursy-walut.pl/kurs-funta/', 3)
     get_gold_price('https://www.kitco.com/charts/livegold.html', 4)
+    get_silver_price('https://www.kitco.com/charts/livesilver.html', 33)
     get_swda_price('https://www.hl.co.uk/shares/shares-search-results/i/ishares-iii-plc-core-msci-world-acc', 5)
     get_emim_price('https://www.hl.co.uk/shares/shares-search-results/i/ishares-plc-msci-emerging-markets-imi', 6)
     get_token_price_from_coingecko(7)
@@ -553,7 +581,6 @@ def update_everything():
     get_token_price_from_coingecko(30)
     get_token_price_from_coingecko(31)
     get_token_price_from_coingecko(32)
-    get_token_price_from_coingecko(33)
     sys.exit()
 
 
