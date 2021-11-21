@@ -9,7 +9,7 @@ from tkinter.filedialog import askopenfilename
 import requests
 
 window = tk.Tk()
-window.title("Pobieracz Kursów 0.8 Beta")
+window.title("Pobieracz Kursów 1.0")
 bg_colour = 'lightblue'
 window.configure(background=bg_colour)
 window.wm_iconbitmap('icon.ico')
@@ -456,7 +456,7 @@ def get_fiat_price(link, id):
         None
 
 
-def get_gold_price(link, id):
+def get_metal_price(link, id):
     try:
         global notowania
         url = link
@@ -479,52 +479,7 @@ def get_gold_price(link, id):
         None
 
 
-def get_silver_price(link, id):
-    try:
-        global notowania
-        url = link
-        page = get(url)
-        bs = BeautifulSoup(page.content, 'html.parser')
-
-        for nastronie in bs.find_all('div', class_='data-blk bid'):
-            price = nastronie.find('span').get_text()
-            price = price.replace(",", "")
-            price = price.replace(".", ",")
-
-        data = wb['data']
-        sheet = data.cell(row=2, column=id)
-        cell = data.cell(row=3, column=id)
-        sheet_exact = wb[str(sheet.value)]
-        sheet_exact[str(cell.value)] = price
-        wb.save(trak)
-        print(id)
-    except:
-        None
-
-
-def get_swda_price(link, id):
-    try:
-        page = get(link)
-        bs = BeautifulSoup(page.content, 'html.parser')
-
-        for onpage in bs.find('span', class_='bid price-divide'):
-            page = str(onpage)
-            page = page.replace('p', '')
-            page = page.replace(',', '')
-            price = page[0:4]
-            print(price)
-
-        data = wb['data']
-        sheet = data.cell(row=2, column=id)
-        cell = data.cell(row=3, column=id)
-        sheet_exact = wb[str(sheet.value)]
-        sheet_exact[str(cell.value)] = price
-        wb.save(trak)
-    except:
-        None
-
-
-def get_emim_price(link, id):
+def get_etf_price(link, id):
     try:
         page = get(link)
         bs = BeautifulSoup(page.content, 'html.parser')
@@ -551,10 +506,10 @@ def update_everything():
     get_fiat_price('https://e-kursy-walut.pl/kurs-dolara/', 1)
     get_fiat_price('https://e-kursy-walut.pl/kurs-euro/', 2)
     get_fiat_price('https://e-kursy-walut.pl/kurs-funta/', 3)
-    get_gold_price('https://www.kitco.com/charts/livegold.html', 4)
-    get_silver_price('https://www.kitco.com/charts/livesilver.html', 33)
-    get_swda_price('https://www.hl.co.uk/shares/shares-search-results/i/ishares-iii-plc-core-msci-world-acc', 5)
-    get_emim_price('https://www.hl.co.uk/shares/shares-search-results/i/ishares-plc-msci-emerging-markets-imi', 6)
+    get_metal_price('https://www.kitco.com/charts/livegold.html', 4)
+    get_metal_price('https://www.kitco.com/charts/livesilver.html', 33)
+    get_etf_price('https://www.hl.co.uk/shares/shares-search-results/i/ishares-iii-plc-core-msci-world-acc', 5)
+    get_etf_price('https://www.hl.co.uk/shares/shares-search-results/i/ishares-plc-msci-emerging-markets-imi', 6)
     get_token_price_from_coingecko(7)
     get_token_price_from_coingecko(8)
     get_token_price_from_coingecko(9)
